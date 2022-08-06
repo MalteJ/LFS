@@ -1,0 +1,28 @@
+#!/bin/bash
+
+file=$1
+packet=`echo ${file:4} | cut -d. -f1`
+
+echo Packet: $packet
+
+url="https://www.linuxfromscratch.org/lfs/view/stable/chapter08/$packet.html"
+if ! curl --output /dev/null --silent --head --fail "$url"; then
+  echo "URL does not exist: $url"
+  exit 1
+fi
+
+tar=`cd ../../build/sources; ls -1 $packet*.tar*`
+if [ ! -f "../../build/sources/$tar" ]; then
+    echo "tar file not found"
+    exit 1
+fi
+echo $tar
+tmp=${tar%.*}
+dir=${tmp%.*}
+
+sed -i "s#__NOT_IMPLEMENTED#$url#" $file
+echo cd /source    >> $file
+echo rm -rf $dir   >> $file
+echo tar xvf $tar  >> $file
+echo cd $dir       >> $file
+echo ""            >> $file
