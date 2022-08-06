@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/xml-parser.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf XML-Parser-2.46
 tar xvf XML-Parser-2.46.tar.gz
 cd XML-Parser-2.46

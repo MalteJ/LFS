@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/gperf.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf gperf-3.1
 tar xvf gperf-3.1.tar.gz
 cd gperf-3.1

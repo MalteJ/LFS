@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/procps-ng.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf procps-ng-3.3.17
 tar xvf procps-ng-3.3.17.tar.xz
 cd procps-ng-3.3.17

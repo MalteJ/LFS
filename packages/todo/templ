@@ -21,7 +21,7 @@ tmp=${tar%.*}
 dir=${tmp%.*}
 
 sed -i "s#__NOT_IMPLEMENTED#$url#" $file
-echo cd /source    >> $file
+echo cd /sources   >> $file
 echo rm -rf $dir   >> $file
 echo tar xvf $tar  >> $file
 echo cd $dir       >> $file

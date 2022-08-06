@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/grep.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf grep-3.7
 tar xvf grep-3.7.tar.xz
 cd grep-3.7

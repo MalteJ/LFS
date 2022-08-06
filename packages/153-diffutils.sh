@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/diffutils.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf diffutils-3.8
 tar xvf diffutils-3.8.tar.xz
 cd diffutils-3.8

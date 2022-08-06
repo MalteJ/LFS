@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/coreutils.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf coreutils-9.0
 tar xvf coreutils-9.0.tar.xz
 cd coreutils-9.0

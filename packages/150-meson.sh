@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/meson.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf meson-0.61.1
 tar xvf meson-0.61.1.tar.gz
 cd meson-0.61.1

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/man-db.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf man-db-2.10.1
 tar xvf man-db-2.10.1.tar.xz
 cd man-db-2.10.1

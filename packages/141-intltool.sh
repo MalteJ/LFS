@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/intltool.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf intltool-0.51.0
 tar xvf intltool-0.51.0.tar.gz
 cd intltool-0.51.0

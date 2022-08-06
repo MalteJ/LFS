@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/iproute2.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf iproute2-5.16.0
 tar xvf iproute2-5.16.0.tar.xz
 cd iproute2-5.16.0

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/e2fsprogs.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf e2fsprogs-1.46.5
 tar xvf e2fsprogs-1.46.5.tar.gz
 cd e2fsprogs-1.46.5

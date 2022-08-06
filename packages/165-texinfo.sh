@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/texinfo.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf texinfo-6.8
 tar xvf texinfo-6.8.tar.xz
 cd texinfo-6.8

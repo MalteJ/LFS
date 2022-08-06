@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/openssl.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf openssl-3.0.1
 tar xjvf openssl-3.0.1.tar.gz
 cd openssl-3.0.1

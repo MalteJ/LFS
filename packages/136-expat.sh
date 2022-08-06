@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/expat.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf expat-2.4.6
 tar xvf expat-2.4.6.tar.xz
 cd expat-2.4.6

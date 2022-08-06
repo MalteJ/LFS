@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/groff.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf groff-1.22.4
 tar xvf groff-1.22.4.tar.gz
 cd groff-1.22.4

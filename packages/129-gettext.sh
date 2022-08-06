@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/gettext.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf gettext-0.21
 tar xvf gettext-0.21.tar.xz
 cd gettext-0.21

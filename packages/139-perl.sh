@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/perl.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf perl-5.34.0
 tar xvf perl-5.34.0.tar.xz
 cd perl-5.34.0

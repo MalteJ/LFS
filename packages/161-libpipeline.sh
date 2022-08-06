@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/libpipeline.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf libpipeline-1.5.5
 tar xvf libpipeline-1.5.5.tar.gz
 cd libpipeline-1.5.5

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/kmod.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf kmod-29
 tar xvf kmod-29.tar.xz
 cd kmod-29

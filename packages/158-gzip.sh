@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/gzip.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf gzip-1.11
 tar xvf gzip-1.11.tar.xz
 cd gzip-1.11

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/kbd.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf kbd-2.4.0
 tar xvf kbd-2.4.0.tar.xz
 cd kbd-2.4.0

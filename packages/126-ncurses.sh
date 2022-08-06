@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/ncurses.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf ncurses-6.3
 tar xvf ncurses-6.3.tar.gz
 cd ncurses-6.3

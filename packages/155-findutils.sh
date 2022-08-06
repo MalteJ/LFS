@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/findutils.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf findutils-4.9.0
 tar xvf findutils-4.9.0.tar.xz
 cd findutils-4.9.0

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/bison.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf bison-3.8.2
 tar xvf bison-3.8.2.tar.xz
 cd bison-3.8.2

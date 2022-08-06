@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/pkg-config.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf pkg-config-0.29.2
 tar xvf pkg-config-0.29.2.tar.gz
 cd pkg-config-0.29.2

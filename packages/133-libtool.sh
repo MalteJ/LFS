@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/libtool.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf libtool-2.4.6
 tar xvf libtool-2.4.6.tar.xz
 cd libtool-2.4.6

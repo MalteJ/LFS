@@ -6,7 +6,7 @@ echo __NOT_IMPLEMENTED
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf Python-3.10.2
 tar xvf Python-3.10.2.tar.xz
 cd Python-3.10.2

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/ninja.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf ninja-1.10.2
 tar xvf ninja-1.10.2.tar.gz
 cd ninja-1.10.2

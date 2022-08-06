@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/patch.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf patch-2.7.6
 tar xvf patch-2.7.6.tar.xz
 cd patch-2.7.6

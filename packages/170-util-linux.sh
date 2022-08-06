@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/util-linux.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf util-linux-2.37.4
 tar xvf util-linux-2.37.4.tar.xz
 cd util-linux-2.37.4

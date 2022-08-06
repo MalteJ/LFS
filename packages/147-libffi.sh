@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/libffi.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf libffi-3.4.2
 tar xvf libffi-3.4.2.tar.gz
 cd libffi-3.4.2

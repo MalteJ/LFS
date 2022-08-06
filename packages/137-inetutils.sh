@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/inetutils.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf inetutils-2.2
 tar xvf inetutils-2.2.tar.xz
 cd inetutils-2.2

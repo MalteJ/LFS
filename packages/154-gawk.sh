@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/gawk.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf gawk-5.1.1
 tar xvf gawk-5.1.1.tar.xz
 cd gawk-5.1.1

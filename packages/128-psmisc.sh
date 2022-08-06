@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/psmisc.html
 set -e
 set -x
 
-cd /source
+cd /sources
 rm -rf psmisc-23.4
 tar xvf psmisc-23.4.tar.xz
 cd psmisc-23.4
