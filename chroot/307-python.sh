@@ -7,8 +7,8 @@ set -e
 set -x
 
 cd /sources/
-tar xvf python-3.10.2.tar.xz
-cd python-3.10.2
+tar xvf Python-3.10.2.tar.xz
+cd Python-3.10.2
 
 ./configure --prefix=/usr   \
             --enable-shared \

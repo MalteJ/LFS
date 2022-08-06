@@ -14,7 +14,7 @@ CHROOT_OUT := $(CHROOT:.sh=.out)
 %.out: %.sh
 	MAKEFLAGS='-j8' $< | tee $@
 
-tc: $(TOOLCHAIN)
+tc: $(TOOLCHAIN_LOGS)
 
 chrooted: $(CHROOT_OUT)
 
@@ -53,7 +53,8 @@ chroot:
 	
 	make unmount
 
-	cd build && tar -cJpf ../lfs-temp-tools-11.1.tar.xz .
+	mkdir -p artifacts
+	cd build && sudo tar -cpfv ../artifacts/lfs-temp-tools-11.1.tar .
 
 unmount:
 	sudo umount build/dev/pts
