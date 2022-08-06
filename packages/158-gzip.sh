@@ -11,3 +11,7 @@ rm -rf gzip-1.11
 tar xvf gzip-1.11.tar.xz
 cd gzip-1.11
 
+./configure --prefix=/usr
+make
+make check
+make install
