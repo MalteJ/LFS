@@ -1,24 +1,63 @@
-export MAKEFLAGS='-j8'
-
 SHELL = /bin/bash -o pipefail
-SCRIPTS := $(wildcard toolchain/*.sh)
-LOGS    := $(SCRIPTS:.sh=.log)
 
-.PHONY: toolchain
+TOOLCHAIN := $(wildcard toolchain/*.sh)
+TOOLCHAIN_LOGS := $(TOOLCHAIN:.sh=.log)
+
+CHROOT := $(wildcard chroot/*.sh)
+CHROOT_OUT := $(CHROOT:.sh=.out)
+
+.PHONY: toolchain chroot
 
 %.log: %.sh
-	$< | sudo tee $@
+	MAKEFLAGS='-j8' $< | sudo tee $@
 
-tc: $(LOGS)
+%.out: %.sh
+	MAKEFLAGS='-j8' $< | tee $@
+
+tc: $(TOOLCHAIN)
+
+chrooted: $(CHROOT_OUT)
 
 clean:
 	sudo umount build; sudo rm -rf build; sudo rm -f toolchain/*.log
 
-deps:
-	sudo apt-get install -y build-essential findutils wget bison texinfo gawk bison
-
 toolchain:
-	docker run --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
+	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
+
+chroot:
+	sudo mkdir -pv build/{dev,proc,sys,run}
+
+	sudo mknod -m 600 build/dev/console c 5 1
+	sudo mknod -m 666 build/dev/null c 1 3
+
+	sudo mount -v --bind /dev build/dev
+
+	sudo mount -v --bind /dev/pts build/dev/pts
+	sudo mount -vt proc proc build/proc
+	sudo mount -vt sysfs sysfs build/sys
+	sudo mount -vt tmpfs tmpfs build/run
+
+	if [ -h build/dev/shm ]; then \
+		sudo mkdir -pv build/$(readlink $LFS/dev/shm); \
+	fi
+
+	sudo mkdir -p build/lfs
+	sudo cp -ra Makefile chroot build/lfs/
+
+	sudo chroot build /usr/bin/env -i   \
+		HOME=/root                  \
+		TERM="$(TERM)"                \
+		PS1='(lfs chroot) \u:\w\$ ' \
+		PATH=/usr/bin:/usr/sbin     \
+		/bin/bash --login -c "cd /lfs && make chrooted"
+	
+	make unmount
+
+	cd build && tar -cJpf ../lfs-temp-tools-11.1.tar.xz .
+
+unmount:
+	sudo umount build/dev/pts
+	sudo umount build/{sys,proc,run,dev}
 
 docker:
 	docker build -t onmetal/lfs-builder .

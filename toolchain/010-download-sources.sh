@@ -14,10 +14,8 @@ sudo chmod -v a+wt $LFS/sources
 #wget https://www.linuxfromscratch.org/lfs/view/11.1/wget-list -P $LFS/sources/
 #wget --input-file=$LFS/sources/wget-list --continue --directory-prefix=$LFS/sources
 
-wget http://ftp.lfs-matrix.net/pub/lfs/lfs-packages/lfs-packages-11.1.tar -P $LFS/sources/
-
 pushd $LFS/sources
-  tar xvf lfs-packages-11.1.tar
+  wget -qO- http://ftp.lfs-matrix.net/pub/lfs/lfs-packages/lfs-packages-11.1.tar | tar xv
   cd 11.1/
   md5sum -c md5sums
   mv * ../

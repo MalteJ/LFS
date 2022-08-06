@@ -1,7 +1,0 @@
-#!/bin/bash -i
-basename "$0"
-
-set -e
-set -x
-
-
