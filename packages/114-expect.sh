@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf expect5.45.4
 tar xzvf expect5.45.4.tar.gz
 cd expect5.45.4
 

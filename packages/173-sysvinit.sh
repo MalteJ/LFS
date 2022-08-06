@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf sysvinit-3.01
 tar xvf sysvinit-3.01.tar.xz
 cd sysvinit-3.01
 

@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf vim-8.2.4383
 tar xzvf vim-8.2.4383.tar.gz
 cd vim-8.2.4383
 

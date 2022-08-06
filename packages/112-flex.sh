@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf flex-2.6.4
 tar xzvf flex-2.6.4.tar.gz
 cd flex-2.6.4
 

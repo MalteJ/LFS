@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf zlib-1.2.11
 tar xvf zlib-1.2.11.tar.xz
 cd zlib-1.2.11
 

@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf file-5.41
 tar xzvf file-5.41.tar.gz
 cd file-5.41
 

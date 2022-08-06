@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf iana-etc-20220207
 tar xzvf iana-etc-20220207.tar.gz
 cd iana-etc-20220207
 

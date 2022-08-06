@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf zstd-1.5.2
 tar xzvf zstd-1.5.2.tar.gz
 cd zstd-1.5.2
 

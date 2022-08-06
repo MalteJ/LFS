@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf dejagnu-1.6.3
 tar xzvf dejagnu-1.6.3.tar.gz
 cd dejagnu-1.6.3
 

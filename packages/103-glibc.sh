@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf glibc-2.35
 tar xvf glibc-2.35.tar.xz
 cd glibc-2.35
 

@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf bzip2-1.0.8
 tar xzvf bzip2-1.0.8.tar.gz
 cd bzip2-1.0.8
 

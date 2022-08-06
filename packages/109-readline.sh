@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf readline-8.1.2
 tar xzvf readline-8.1.2.tar.gz
 cd readline-8.1.2
 

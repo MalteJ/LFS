@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf sysklogd-1.5.1
 tar xzvf sysklogd-1.5.1.tar.gz
 cd sysklogd-1.5.1
 

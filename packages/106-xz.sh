@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf xz-5.2.5
 tar xvf xz-5.2.5.tar.xz
 cd xz-5.2.5
 

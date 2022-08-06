@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf bc-5.2.2
 tar xvf bc-5.2.2.tar.xz
 cd bc-5.2.2
 
