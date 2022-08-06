@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/zstd.html
 set -e
 set -x
 
-cd /source
-tar xjvf zstd-1.5.2.tar.gz
+cd /sources
+tar xzvf zstd-1.5.2.tar.gz
 cd zstd-1.5.2
 
 make

@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/m4.html
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf m4-1.4.19.tar.xz
 cd m4-1.4.19
 

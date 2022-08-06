@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/bc.html
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf bc-5.2.2.tar.xz
 cd bc-5.2.2
 

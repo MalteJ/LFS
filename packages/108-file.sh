@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/file.html
 set -e
 set -x
 
-cd /source
-tar xjvf file-5.41.tar.gz
+cd /sources
+tar xzvf file-5.41.tar.gz
 cd file-5.41
 
 

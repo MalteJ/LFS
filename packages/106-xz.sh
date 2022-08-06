@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/xz.html
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf xz-5.2.5.tar.xz
 cd xz-5.2.5
 

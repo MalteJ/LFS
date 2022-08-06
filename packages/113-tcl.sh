@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/tcl.html
 set -e
 set -x
 
-cd /source
-tar xjvf tcl8.6.12-src.tar.gz
+cd /sources
+tar xzvf tcl8.6.12-src.tar.gz
 cd tcl8.6.12
 
 tar -xf ../tcl8.6.12-html.tar.gz --strip-components=1

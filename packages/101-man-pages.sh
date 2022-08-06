@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/man-pages.html
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf man-pages-5.13.tar.xz
 cd man-pages-5.13
 

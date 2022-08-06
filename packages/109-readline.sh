@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/readline.html
 set -e
 set -x
 
-cd /source
-tar xjvf readline-8.1.2.tar.gz
+cd /sources
+tar xzvf readline-8.1.2.tar.gz
 cd readline-8.1.2
 
 

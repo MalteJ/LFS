@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/zlib.html
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf zlib-1.2.11.tar.xz
 cd zlib-1.2.11
 

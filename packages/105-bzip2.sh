@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/bzip2.html
 set -e
 set -x
 
-cd /source
-tar xjvf bzip2-1.0.8.tar.gz
+cd /sources
+tar xzvf bzip2-1.0.8.tar.gz
 cd bzip2-1.0.8
 
 patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch

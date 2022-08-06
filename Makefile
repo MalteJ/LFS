@@ -1,3 +1,5 @@
+KERNEL_VERSION=5.15.59
+
 SHELL = /bin/bash -o pipefail
 
 TOOLCHAIN := $(wildcard toolchain/*.sh)
@@ -6,7 +8,17 @@ TOOLCHAIN_LOGS := $(TOOLCHAIN:.sh=.log)
 CHROOT := $(wildcard chroot/*.sh)
 CHROOT_OUT := $(CHROOT:.sh=.out)
 
-.PHONY: toolchain chroot
+PACKAGES := $(wildcard packages/*.sh)
+PACKAGES_OUT := $(PACKAGES:.sh=.out)
+
+KERNEL := $(wildcard kernel/*.sh)
+KERNEL_OUT := $(KERNEL:.sh=.out)
+
+BOOT := $(wildcard boot/*.sh)
+BOOT_OUT := $(BOOT:.sh=.out)
+
+
+.PHONY: toolchain chroot packages kernel boot
 
 %.log: %.sh
 	MAKEFLAGS='-j8' $< | sudo tee $@
@@ -16,19 +28,21 @@ CHROOT_OUT := $(CHROOT:.sh=.out)
 
 tc: $(TOOLCHAIN_LOGS)
 
-chrooted: $(CHROOT_OUT)
 
 clean:
 	sudo umount build; sudo rm -rf build; sudo rm -f toolchain/*.log
 
+docker:
+	docker build -t onmetal/lfs-builder .
+
 toolchain:
 	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
 
-chroot:
+mount:
 	sudo mkdir -pv build/{dev,proc,sys,run}
 
-	sudo mknod -m 600 build/dev/console c 5 1
-	sudo mknod -m 666 build/dev/null c 1 3
+	[ -d build/dev/console ] || sudo mknod -m 600 build/dev/console c 5 1; echo ok
+	[ -d build/dev/null ] || sudo mknod -m 666 build/dev/null c 1 3; echo ok
 
 	sudo mount -v --bind /dev build/dev
 
@@ -42,23 +56,61 @@ chroot:
 	fi
 
 	sudo mkdir -p build/lfs
-	sudo cp -ra Makefile chroot build/lfs/
+	sudo mount --bind $(shell pwd) build/lfs
 
+unmount:
+	sudo umount build/dev/pts
+	sudo umount build/{sys,proc,run,dev}
+	sudo umount build/lfs
+
+_chroot: $(CHROOT_OUT)
+
+chroot:
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
 		TERM="$(TERM)"                \
 		PS1='(lfs chroot) \u:\w\$ ' \
 		PATH=/usr/bin:/usr/sbin     \
-		/bin/bash --login -c "cd /lfs && make chrooted"
+		/bin/bash --login -c "cd /lfs && make _chroot"
 	
 	make unmount
 
 	mkdir -p artifacts
 	cd build && sudo tar -cpfv ../artifacts/lfs-temp-tools-11.1.tar .
 
-unmount:
-	sudo umount build/dev/pts
-	sudo umount build/{sys,proc,run,dev}
+_packages: $(PACKAGES_OUT)
 
-docker:
-	docker build -t onmetal/lfs-builder .
+packages:
+	sudo chroot build /usr/bin/env -i   \
+		HOME=/root                  \
+		TERM="$(TERM)"                \
+		PS1='(lfs chroot) \u:\w\$ ' \
+		PATH=/usr/bin:/usr/sbin     \
+		/bin/bash --login -c "cd /lfs && make _packages"
+	
+	make unmount
+
+	mkdir -p artifacts
+	cd build && sudo tar -cpfv ../artifacts/lfs-11.1.tar .
+
+_kernel: $(KERNEL_OUT)
+
+kernel:
+	wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$(KERNEL_VERSION).tar.xz -O build/sources/linux-$(KERNEL_VERSION).tar.xz
+
+	sudo chroot build /usr/bin/env -i   \
+		HOME=/root                  \
+		TERM="$(TERM)"                \
+		PS1='(lfs chroot) \u:\w\$ ' \
+		PATH=/usr/bin:/usr/sbin     \
+		/bin/bash --login -c "cd /lfs && KERNEL_VERSION=$(KERNEL_VERSION) make _kernel"
+
+_boot: $(BOOT_OUT)
+
+boot:
+	sudo chroot build /usr/bin/env -i   \
+		HOME=/root                  \
+		TERM="$(TERM)"                \
+		PS1='(lfs chroot) \u:\w\$ ' \
+		PATH=/usr/bin:/usr/sbin     \
+		/bin/bash --login -c "cd /lfs && make _boot"

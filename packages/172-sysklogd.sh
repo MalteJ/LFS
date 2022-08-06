@@ -1,13 +1,13 @@
 #!/bin/bash -i
 basename "$0"
 if [ ! `id -u` = 0 ]; then echo "Script has to run as root!"; exit 1; fi
-echo __NOT_IMPLEMENTED
+echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/sysklogd.html
 
 set -e
 set -x
 
-cd /source
-tar xjvf sysklogd-1.5.1.tar.gz
+cd /sources
+tar xzvf sysklogd-1.5.1.tar.gz
 cd sysklogd-1.5.1
 
 sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c

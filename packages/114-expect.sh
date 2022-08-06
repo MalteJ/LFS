@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/expect.html
 set -e
 set -x
 
-cd /source
-tar xjvf expect5.45.4.tar.gz
+cd /sources
+tar xzvf expect5.45.4.tar.gz
 cd expect5.45.4
 
 ./configure --prefix=/usr           \

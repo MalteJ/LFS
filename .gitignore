@@ -1,6 +1,7 @@
 build/
 *.swp
 *.log
+*.out
 *~
 nohup.out
 artifacts

@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/dejagnu.html
 set -e
 set -x
 
-cd /source
-tar xjvf dejagnu-1.6.3.tar.gz
+cd /sources
+tar xzvf dejagnu-1.6.3.tar.gz
 cd dejagnu-1.6.3
 
 mkdir -v build

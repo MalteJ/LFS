@@ -6,7 +6,7 @@ echo __NOT_IMPLEMENTED
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf grub-2.06.tar.xz
 cd grub-2.06
 

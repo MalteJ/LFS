@@ -6,7 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/binutils.html
 set -e
 set -x
 
-cd /source
+cd /sources
+rm -rf binutils-2.38
 tar xvf binutils-2.38.tar.xz
 cd binutils-2.38
 
@@ -18,6 +19,7 @@ patch -Np1 -i ../binutils-2.38-lto_fix-1.patch
 sed -e '/R_386_TLS_LE /i \   || (TYPE) == R_386_TLS_IE \\' \
     -i ./bfd/elfxx-x86.h
 
+rm -rf build
 mkdir -v build
 cd       build
 

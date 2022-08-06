@@ -6,7 +6,7 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/glibc.html
 set -e
 set -x
 
-cd /source
+cd /sources
 tar xvf glibc-2.35.tar.xz
 cd glibc-2.35
 
@@ -26,6 +26,11 @@ echo "rootsbindir=/usr/sbin" > configparms
              libc_cv_slibdir=/usr/lib
 
 make
+
+# Do not test three tests known broken in LFS:
+touch io/tst-lchmod.out
+touch misc/tst-ttyname.out
+touch nss/tst-nss-files-hosts-multi.out
 
 make check
 
@@ -78,12 +83,6 @@ localedef -i zh_HK -f BIG5-HKSCS zh_HK.BIG5-HKSCS
 localedef -i zh_TW -f UTF-8 zh_TW.UTF-8
 
 
-make localedata/install-locales
-
-localedef -i POSIX -f UTF-8 C.UTF-8 2> /dev/null || true
-localedef -i ja_JP -f SHIFT_JIS ja_JP.SJIS 2> /dev/null || true
-
-
 
 ### Configuring Glibc
 
@@ -121,9 +120,9 @@ cp -v zone.tab zone1970.tab iso3166.tab $ZONEINFO
 zic -d $ZONEINFO -p America/New_York
 unset ZONEINFO
 
-tzselect
-
-ln -sfv /usr/share/zoneinfo/<xxx> /etc/localtime
+# We do not want to get asked for our timezone. We want to use UTC.
+# tzselect
+ln -sfv /usr/share/zoneinfo/UTC /etc/localtime
 
 cat > /etc/ld.so.conf << "EOF"
 # Begin /etc/ld.so.conf

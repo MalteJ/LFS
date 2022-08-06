@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/iana-etc.html
 set -e
 set -x
 
-cd /source
-tar xvf iana-etc-20220207.tar.xz
+cd /sources
+tar xzvf iana-etc-20220207.tar.gz
 cd iana-etc-20220207
 
 cp services protocols /etc

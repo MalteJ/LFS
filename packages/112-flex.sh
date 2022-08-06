@@ -6,8 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/flex.html
 set -e
 set -x
 
-cd /source
-tar xjvf flex-2.6.4.tar.gz
+cd /sources
+tar xzvf flex-2.6.4.tar.gz
 cd flex-2.6.4
 
 ./configure --prefix=/usr \
