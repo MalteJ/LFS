@@ -1,0 +1,25 @@
+#!/bin/bash -i
+basename "$0"
+source ~/.bashrc
+set -e
+set -x
+
+if [ -z "$LFS" ]; then echo "LFS variable not set"; exit 1; fi
+
+sudo mkdir -p $LFS/sources
+sudo chmod -v a+wt $LFS/sources
+
+#wget https://www.linuxfromscratch.org/lfs/view/11.1/md5sums -P $LFS/sources/
+
+#wget https://www.linuxfromscratch.org/lfs/view/11.1/wget-list -P $LFS/sources/
+#wget --input-file=$LFS/sources/wget-list --continue --directory-prefix=$LFS/sources
+
+wget http://ftp.lfs-matrix.net/pub/lfs/lfs-packages/lfs-packages-11.1.tar -P $LFS/sources/
+
+pushd $LFS/sources
+  tar xvf lfs-packages-11.1.tar
+  cd 11.1/
+  md5sum -c md5sums
+  mv * ../
+  cd ..
+popd
