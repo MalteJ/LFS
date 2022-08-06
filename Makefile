@@ -18,13 +18,14 @@ BOOT := $(wildcard boot/*.sh)
 BOOT_OUT := $(BOOT:.sh=.out)
 
 
-.PHONY: toolchain chroot packages kernel boot
+.PHONY: toolchain chroot packages kernel boot packages/010-test.sh 
+#packages/877-stripping.sh packages/878-cleanup.sh
 
 %.log: %.sh
-	MAKEFLAGS='-j8' $< | sudo tee $@
+	MAKEFLAGS='-j24' $< | sudo tee $@
 
 %.out: %.sh
-	MAKEFLAGS='-j8' $< | tee $@
+	MAKEFLAGS='-j24' $< | tee $@
 
 tc: $(TOOLCHAIN_LOGS)
 
@@ -76,7 +77,7 @@ chroot:
 	make unmount
 
 	mkdir -p artifacts
-	cd build && sudo tar -cpfv ../artifacts/lfs-temp-tools-11.1.tar .
+	cd build && sudo tar cpfv ../artifacts/lfs-temp-tools-11.1.tar .
 
 _packages: $(PACKAGES_OUT)
 
@@ -88,10 +89,9 @@ packages:
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && make _packages"
 	
-	make unmount
-
-	mkdir -p artifacts
-	cd build && sudo tar -cpfv ../artifacts/lfs-11.1.tar .
+#	make unmount
+#	mkdir -p artifacts
+#	cd build && sudo tar cpfv ../artifacts/lfs-11.1.tar --exclude ./sources .
 
 _kernel: $(KERNEL_OUT)
 

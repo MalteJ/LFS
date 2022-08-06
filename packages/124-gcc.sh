@@ -11,10 +11,6 @@ rm -rf gcc-11.2.0
 tar xvf gcc-11.2.0.tar.xz
 cd gcc-11.2.0
 
-rm -rf build
-mkdir -v build
-cd       build
-
 sed -e '/static.*SIGSTKSZ/d' \
     -e 's/return kAltStackSize/return SIGSTKSZ * 4/' \
     -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
@@ -25,6 +21,10 @@ case $(uname -m) in
         -i.orig gcc/config/i386/t-linux64
   ;;
 esac
+
+rm -rf build
+mkdir -v build
+cd       build
 
 ../configure --prefix=/usr            \
              LD=ld                    \

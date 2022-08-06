@@ -27,11 +27,6 @@ echo "rootsbindir=/usr/sbin" > configparms
 
 make
 
-# Do not test three tests known broken in LFS:
-touch io/tst-lchmod.out
-touch misc/tst-ttyname.out
-touch nss/tst-nss-files-hosts-multi.out
-
 make check
 
 touch /etc/ld.so.conf

@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd /sources
+rm -rf tcl8.6.12
 tar xzvf tcl8.6.12-src.tar.gz
 cd tcl8.6.12
 

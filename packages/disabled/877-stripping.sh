@@ -17,7 +17,7 @@ save_usrlib="$(cd /usr/lib; ls ld-linux*)
 cd /usr/lib
 
 for LIB in $save_usrlib; do
-    objcopy --only-keep-debug $LIB $LIB.dbg
+    objcopy --only-keep-debug $LIB $LIB.dbg || echo "File already gone: $LIB"; continue
     cp $LIB /tmp/$LIB
     strip --strip-unneeded /tmp/$LIB
     objcopy --add-gnu-debuglink=$LIB.dbg /tmp/$LIB
@@ -54,7 +54,7 @@ for i in $(find /usr/lib -type f -name \*.so* ! -name \*dbg) \
     case "$online_usrbin $online_usrlib $save_usrlib" in
         *$(basename $i)* )
             ;;
-        * ) strip --strip-unneeded $i
+        * ) strip --strip-unneeded $i || continue
             ;;
     esac
 done

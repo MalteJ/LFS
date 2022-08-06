@@ -6,7 +6,8 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter08/cleanup.html
 set -e
 set -x
 
+rm -f /root/.bash_history
 rm -rf /tmp/*
 find /usr/lib /usr/libexec -name \*.la -delete
 find /usr -depth -name $(uname -m)-lfs-linux-gnu\* | xargs rm -rf
-userdel -r tester
+userdel -r tester || echo "tester already deleted"
