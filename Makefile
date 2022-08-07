@@ -48,15 +48,23 @@ var:
 disk:
 	rm -f artifacts/disk.img
 	dd if=/dev/zero of=artifacts/disk.img bs=1M count=16384
-	parted artifacts/disk.img mklabel gpt mkpart "EFI" fat32 1MiB 101MiB set 1 esp on mkpart "Linux" ext4 101MiB 100%
+	sfdisk artifacts/disk.img < misc/partitions.fdisk
+
+	# parted artifacts/disk.img mklabel gpt mkpart "EFI" fat32 1MiB 101MiB set 1 esp on mkpart "Linux" ext4 101MiB 100%
+	# sudo tune2fs /dev/loop0p2 -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc;
+
 	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
 	sudo mkfs.vfat $${DEVICE}p1; \
 	sudo mkfs.ext4 $${DEVICE}p2; \
-	sudo tune2fs $${DEVICE}p2 -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc; \
-	sudo mkdir -p build2; \
-	sudo mount $${DEVICE}p2 build2; \
-	sudo mkdir -p build2/efi; \
-	sudo mount $${DEVICE}p1 build2/efi
+	sudo mkdir -p build; \
+	sudo mount $${DEVICE}p2 build; \
+	sudo mkdir -p build/boot/efi; \
+	sudo mount $${DEVICE}p1 build/boot/efi
+
+fdisk:
+	sfdisk -label artifacts/disk.img gpt
+	sfdisk -part-label artifacts/disk.img 1 "EFI"
+	sfdisk -part-label artifacts/disk.img 2 "Linux"
 
 
 toolchain:
@@ -108,6 +116,7 @@ packages:
 	# additional packages for grub's efi support (packages/157-*.sh)
 	[ -f build/sources/mandoc-1.14.6.tar.gz ]                 || wget https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz -O build/sources/mandoc-1.14.6.tar.gz
 	[ -f build/sources/efivar-38.tar.bz2 ]      || wget https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2 -O build/sources/efivar-38.tar.bz2
+	[ -f build/sources/popt-1.18.tar.gz ]       || wget http://ftp.rpm.org/popt/releases/popt-1.x/popt-1.18.tar.gz -O build/sources/popt-1.18.tar.gz
 	[ -f build/sources/efibootmgr-17.tar.gz ]   || wget https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz -O build/sources/efibootmgr-17.tar.gz
 	[ -f build/sources/freetype-2.11.1.tar.xz ] || wget https://downloads.sourceforge.net/freetype/freetype-2.11.1.tar.xz -O build/sources/freetype-2.11.1.tar.xz
 	[ -f build/sources/unifont-14.0.01.pcf.gz ] || wget http://unifoundry.com/pub/unifont/unifont-14.0.01/font-builds/unifont-14.0.01.pcf.gz -O build/sources/unifont-14.0.01.pcf.gz
@@ -150,10 +159,10 @@ qemu:
 	  -m 2048M \
 	  -smp 2 \
 	  -cpu host \
-	  -boot c \
 	  -drive format=raw,file=artifacts/disk.img \
 	  -vga std \
 	  -machine type=q35,accel=kvm \
 	  -smbios "type=0,vendor=0vendor,version=0version,date=0date,release=0.0,uefi=on" \
 	  -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 \
-	  -display gtk
+	  -display gtk \
+	  -boot c

@@ -7,16 +7,15 @@ set -e
 set -x
 
 cd /sources
-rm -rf efivar-38
-tar xvf efivar-38.tar.bz2
-cd efivar-38
+rm -rf popt-1.18
+tar xvf popt-1.18.tar.gz
+cd popt-1.18
 
 # Built with instructions from BLFS:
 
-sed '/prep :/a\\ttouch prep' -i src/Makefile
+./configure --prefix=/usr --disable-static
 make
-make install LIBDIR=/usr/lib
 
-cp /usr/include/efivar/* /usr/include/
+make install
 
-# rm -rf /sources/efivar-38
+rm -rf /sources/popt-1.18
