@@ -77,3 +77,13 @@ Changes over upstream LFS
 * e2fsprogs (`151-1-e2fsprogs.sh`) will be built before coreutils (`151-2-coreutils.sh`) to provide `mkfs.ext2`, which coreutils needs for its tests.
 * Disabled a few tests (see Tests)
 * Disabled installation of lots of docs
+
+
+TODO
+----
+
+* Have a look at the [LFS-Bootscripts](https://www.linuxfromscratch.org/lfs/view/stable/chapter09/bootscripts.html). They install config files for sysvinit with network configuration etc. This has to be adapted to our needs.
+* Remove packages we do not need
+* Remove build system from final image
+* Reduce Kernel functionality to a minimum
+* Include Qemu
