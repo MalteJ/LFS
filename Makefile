@@ -42,15 +42,22 @@ clean:
 docker:
 	docker build -t onmetal/lfs-builder .
 
-partition:
-	rm -f artifacts/part.img
-	dd if=/dev/zero of=artifacts/part.img
-	sudo mkfs.ext4 artifacts/part.img
-	sudo tune2fs artifacts/part.img -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc
-	sudo blkid artifacts/part.img
+var:
+	export FOO=$(shell echo bar); echo foo$${FOO}p2
 
-	mkdir -p build
-	sudo mount artifacts/part.img build
+disk:
+	rm -f artifacts/disk.img
+	dd if=/dev/zero of=artifacts/disk.img bs=1M count=16384
+	parted artifacts/disk.img mklabel gpt mkpart "EFI" fat32 1MiB 101MiB set 1 esp on mkpart "Linux" ext4 101MiB 100%
+	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
+	sudo mkfs.vfat $${DEVICE}p1; \
+	sudo mkfs.ext4 $${DEVICE}p2; \
+	sudo tune2fs $${DEVICE}p2 -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc; \
+	sudo mkdir -p build2; \
+	sudo mount $${DEVICE}p2 build2; \
+	sudo mkdir -p build2/efi; \
+	sudo mount $${DEVICE}p1 build2/efi
+
 
 toolchain:
 	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
@@ -82,6 +89,7 @@ unmount:
 
 unmount-all:
 	sudo umount -Rv build
+	sudo losetup -D
 
 _chroot: $(CHROOT_OUT)
 
@@ -135,3 +143,17 @@ boot:
 		/bin/bash --login -c "cd /lfs && make _boot"
 
 all: toolchain mount chroot packages kernel boot unmount-all
+
+
+qemu:
+	qemu-system-x86_64 \
+	  -m 2048M \
+	  -smp 2 \
+	  -cpu host \
+	  -boot c \
+	  -drive format=raw,file=artifacts/disk.img \
+	  -vga std \
+	  -machine type=q35,accel=kvm \
+	  -smbios "type=0,vendor=0vendor,version=0version,date=0date,release=0.0,uefi=on" \
+	  -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 \
+	  -display gtk
