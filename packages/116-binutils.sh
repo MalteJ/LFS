@@ -39,3 +39,5 @@ make -k check
 make tooldir=/usr install
 
 rm -fv /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
+
+rm -rf /sources/binutils-2.38

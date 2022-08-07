@@ -134,3 +134,6 @@ include /etc/ld.so.conf.d/*.conf
 
 EOF
 mkdir -pv /etc/ld.so.conf.d
+
+
+rm -rf /sources/glibc-2.35

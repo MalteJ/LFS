@@ -12,7 +12,7 @@ cat > /etc/fstab << "EOF"
 # file system  mount-point  type     options             dump  fsck
 #                                                              order
 
-/dev/nvme0n1   /            ext4     defaults            1     1
+UUID=8b681c2f-a5fa-498d-8ffa-2aa5016d32fc   /            ext4     defaults            1     1
 proc           /proc        proc     nosuid,noexec,nodev 0     0
 sysfs          /sys         sysfs    nosuid,noexec,nodev 0     0
 devpts         /dev/pts     devpts   gid=5,mode=620      0     0

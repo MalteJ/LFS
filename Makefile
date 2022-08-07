@@ -36,6 +36,13 @@ clean:
 docker:
 	docker build -t onmetal/lfs-builder .
 
+partition:
+	rm -f artifacts/part.img
+	dd if=/dev/zero of=artifacts/part.img
+	sudo mkfs.ext4 artifacts/part.img
+	sudo tune2fs artifacts/part.img -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc
+	sudo blkid artifacts/part.img
+
 toolchain:
 	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
 

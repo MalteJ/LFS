@@ -52,8 +52,7 @@ You can unmount virtual filesystem mounts using
     make unmount
 
 
-Tests
------
+### Tests
 
 A few tests will fail. Compare with [LFS Test Logs](https://www.linuxfromscratch.org/lfs/build-logs/11.1/Xeon-E5-1650v3/test-logs/) if your failed tests are to be expected.
 

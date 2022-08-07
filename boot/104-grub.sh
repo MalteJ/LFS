@@ -11,10 +11,10 @@ cat > /boot/grub/grub.cfg << "EOF"
 set default=0
 set timeout=5
 
-insmod ext2
-set root=(hd0,2)
+insmod ext4
+set root=(hd0,1)
 
-menuentry "GNU/Linux, Linux 5.16.9-lfs-11.1" {
-        linux   /boot/vmlinuz-5.16.9-lfs-11.1 root=/dev/sda2 ro
+menuentry "GNU/Linux, Linux 5.15.59-lfs-11.1" {
+        linux   /boot/vmlinuz-5.15.59-lfs-11.1 root=UUID=8b681c2f-a5fa-498d-8ffa-2aa5016d32fc ro
 }
 EOF
