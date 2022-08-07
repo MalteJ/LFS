@@ -38,11 +38,11 @@ We will build the toolchain using a docker container, that has the required buil
     make docker
 
 
-To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execute the `toolchain`, `mount` and `chroot` Make targets. `make mount` will mount virtual filesystems into the chroot environment (/dev, /proc, /sys, /run etc.). These can be unmounted using `make unmount`.
+To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execute the `mount-vfs`, `sources` and `toolchain` Make targets. `make mount-vfs` will mount virtual filesystems into the chroot environment (/dev, /proc, /sys, /run etc.). These can be unmounted using `make unmount`.
 
-    make toolchain    # LFS chapter 6
-    make mount
-    make chroot       # LFS chapter 7
+    make mount-vfs    # mount virtual kernel filesystems into build/ (proc, sys etc.)
+    make sources      # downloads all source packages (see misc/wget-list.*)
+    make toolchain    # LFS chapter 6 & 7
 
 Now is a good time to backup the new toolchain to a tar file:
 

@@ -53,6 +53,7 @@ disk:
 	# parted artifacts/disk.img mklabel gpt mkpart "EFI" fat32 1MiB 101MiB set 1 esp on mkpart "Linux" ext4 101MiB 100%
 	# sudo tune2fs /dev/loop0p2 -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc;
 
+	sleep 1
 	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
 	sudo mkfs.vfat $${DEVICE}p1; \
 	sudo mkfs.ext4 $${DEVICE}p2; \
@@ -60,6 +61,7 @@ disk:
 	sudo mount $${DEVICE}p2 build; \
 	sudo mkdir -p build/boot/efi; \
 	sudo mount $${DEVICE}p1 build/boot/efi
+
 
 fdisk:
 	sfdisk -label artifacts/disk.img gpt
@@ -70,7 +72,14 @@ fdisk:
 toolchain:
 	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
 
-mount:
+	sudo chroot build /usr/bin/env -i   \
+		HOME=/root                  \
+		TERM="$(TERM)"                \
+		PS1='(lfs chroot) \u:\w\$ ' \
+		PATH=/usr/bin:/usr/sbin     \
+		/bin/bash --login -c "cd /lfs && make _chrooted"
+
+mount-vfs:
 	sudo mkdir -pv build/{dev,proc,sys,run}
 
 	[ -d build/dev/console ] || sudo mknod -m 600 build/dev/console c 5 1; echo ok
@@ -90,6 +99,21 @@ mount:
 	sudo mkdir -p build/lfs
 	sudo mount --bind $(shell pwd) build/lfs
 
+mount-disk:
+	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
+	sudo mkdir -p build; \
+	sudo mount $${DEVICE}p2 build; \
+	sudo mkdir -p build/boot/efi; \
+	sudo mount $${DEVICE}p1 build/boot/efi
+
+sources:
+	#sudo rm -rf build/sources
+	sudo mkdir -p build/sources
+	sudo chmod 777 build/sources
+	wget --input-file=misc/wget-list.custom --continue --directory-prefix=build/sources
+	wget --input-file=misc/wget-list.blfs --continue --directory-prefix=build/sources
+	wget --input-file=misc/wget-list.lfs --continue --directory-prefix=build/sources
+
 unmount:
 	sudo umount build/dev/pts
 	sudo umount build/{sys,proc,run,dev}
@@ -99,15 +123,16 @@ unmount-all:
 	sudo umount -Rv build
 	sudo losetup -D
 
-_chroot: $(CHROOT_OUT)
+_chrooted: $(CHROOT_OUT)
 
 chroot:
-	sudo chroot build /usr/bin/env -i   \
-		HOME=/root                  \
+	sudo chroot build /usr/bin/env -i \
+		HOME=/root                    \
+		PWD=/root                     \
 		TERM="$(TERM)"                \
-		PS1='(lfs chroot) \u:\w\$ ' \
-		PATH=/usr/bin:/usr/sbin     \
-		/bin/bash --login -c "cd /lfs && make _chroot"
+		PS1='(lfs chroot) \u:\w$$ '   \
+		PATH=/usr/bin:/usr/sbin       \
+		/bin/bash -i
 	
 
 _packages: $(PACKAGES_OUT)
