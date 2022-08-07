@@ -18,7 +18,7 @@ BOOT := $(wildcard boot/*.sh)
 BOOT_OUT := $(BOOT:.sh=.out)
 
 
-.PHONY: toolchain chroot packages kernel boot packages/010-test.sh 
+.PHONY: toolchain chroot packages kernel boot packages/010-test.out 
 #packages/877-stripping.sh packages/878-cleanup.sh
 
 %.log: %.sh
@@ -31,7 +31,13 @@ tc: $(TOOLCHAIN_LOGS)
 
 
 clean:
-	sudo umount build; sudo rm -rf build; sudo rm -f toolchain/*.log
+	sudo umount -Rv build; sudo rm -rf build
+	sudo rm -f toolchain/*.log
+	sudo rm -f chroot/*.out
+	sudo rm -f packages/*.out
+	sudo rm -f kernel/*.out
+	sudo rm -f boot/*.out
+	sudo rm -f artifacts/part.img
 
 docker:
 	docker build -t onmetal/lfs-builder .
@@ -42,6 +48,9 @@ partition:
 	sudo mkfs.ext4 artifacts/part.img
 	sudo tune2fs artifacts/part.img -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc
 	sudo blkid artifacts/part.img
+
+	mkdir -p build
+	sudo mount artifacts/part.img build
 
 toolchain:
 	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
@@ -71,6 +80,9 @@ unmount:
 	sudo umount build/{sys,proc,run,dev}
 	sudo umount build/lfs
 
+unmount-all:
+	sudo unmount -Rv build
+
 _chroot: $(CHROOT_OUT)
 
 chroot:
@@ -91,10 +103,6 @@ packages:
 		PS1='(lfs chroot) \u:\w\$ ' \
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && make _packages"
-	
-#	make unmount
-#	mkdir -p artifacts
-#	cd build && sudo tar cpfv ../artifacts/lfs-11.1.tar --exclude ./sources .
 
 _kernel: $(KERNEL_OUT)
 
@@ -117,3 +125,5 @@ boot:
 		PS1='(lfs chroot) \u:\w\$ ' \
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && make _boot"
+
+all: toolchain mount chroot packages kernel boot unmount-all

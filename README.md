@@ -16,6 +16,8 @@ In a next step packages to be used later on will be built within the chroot envi
 Build instructions
 ------------------
 
+Run `make all` and wait for a few hours until you will find a finished `artifacts/part.img`. Alternatively:
+
 To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execute the `toolchain`, `mount` and `chroot` Make targets. `make mount` will mount virtual filesystems into the chroot environment (/dev, /proc, /sys, /run etc.). These can be unmounted using `make unmount`.
 
     make toolchain    # LFS chapter 6
