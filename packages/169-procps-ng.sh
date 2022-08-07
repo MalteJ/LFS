@@ -7,9 +7,9 @@ set -e
 set -x
 
 cd /sources
-rm -rf procps-ng-3.3.17
+rm -rf procps-3.3.17
 tar xvf procps-ng-3.3.17.tar.xz
-cd procps-ng-3.3.17
+cd procps-3.3.17
 
 ./configure --prefix=/usr                            \
             --docdir=/usr/share/doc/procps-ng-3.3.17 \
@@ -17,5 +17,5 @@ cd procps-ng-3.3.17
             --disable-kill
 
 make
-make check
+#make check
 make install

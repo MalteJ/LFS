@@ -30,7 +30,7 @@ cd util-linux-2.37.4
 
 make
 
-chown -Rv tester .
-su tester -c "make -k check"
+#chown -Rv tester .
+#su tester -c "make -k check"
 
 make install
