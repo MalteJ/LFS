@@ -23,3 +23,5 @@ efivarfs       /sys/firmware/efi/efivars efivarfs defaults 0     0
 
 # End /etc/fstab
 EOF
+
+echo "mountpoint -q /sys/firmware/efi/efivars || mount -v -t efivarfs efivarfs /sys/firmware/efi/efivars" >> /root/.bashrc
