@@ -20,4 +20,7 @@ pushd $LFS/sources
   md5sum -c md5sums
   mv * ../
   cd ..
+
+  # download newer OpenSSL
+  wget https://www.openssl.org/source/openssl-3.0.5.tar.gz
 popd

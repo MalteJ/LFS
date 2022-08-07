@@ -28,7 +28,8 @@ echo "rootsbindir=/usr/sbin" > configparms
 
 make -j24
 
-make check -j24
+## fuck this
+# make check -j24
 
 touch /etc/ld.so.conf
 

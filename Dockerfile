@@ -8,7 +8,7 @@ RUN echo "lfs ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/wheel
 RUN mkdir /lfs/toolchain
 COPY toolchain/*sh /lfs/toolchain/
 COPY Makefile /lfs/
-COPY bashrc /lfs/.bashrc
+COPY misc/bashrc /lfs/.bashrc
 RUN chown -R lfs /lfs
 
 USER lfs

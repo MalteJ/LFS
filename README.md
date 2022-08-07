@@ -44,3 +44,24 @@ You can unmount virtual filesystem mounts using
 
     make unmount
 
+
+Tests
+-----
+
+A few tests will fail. Compare with [LFS Test Logs](https://www.linuxfromscratch.org/lfs/build-logs/11.1/Xeon-E5-1650v3/test-logs/) if your failed tests are to be expected.
+
+### Disabled Tests
+
+* 103-glibc.sh
+* 120-attr.sh
+* 164-tar.sh
+
+
+Changes over upstream LFS
+-------------------------
+
+* Kernel 5.15.59 instead of 5.16.9
+* OpenSSL 3.0.5 instead of 3.0.1
+* e2fsprogs (`151-aaa-e2fsprogs`) will be built before coreutils to provide `mkfs.ext2`, which coreutils needs for its tests.
+* Disabled a few tests (see Tests)
+
