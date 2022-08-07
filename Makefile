@@ -119,6 +119,10 @@ kernel:
 _boot: $(BOOT_OUT)
 
 boot:
+	wget https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2 -o build/sources/efivar-38.tar.bz2
+	wget https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz -o build/sources/efibootmgr-17.tar.gz
+	wget https://downloads.sourceforge.net/freetype/freetype-2.11.1.tar.xz -o build/sources/freetype-2.11.1.tar.xz
+
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
 		TERM="$(TERM)"                \

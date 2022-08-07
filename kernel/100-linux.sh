@@ -21,9 +21,9 @@ cp /lfs/kernel/linux-$KERNEL_VERSION.config .config
 make -j24
 make modules_install
 
-cp -iv arch/x86/boot/bzImage /boot/vmlinuz-$KERNEL_VERSION-lfs-11.1
-cp -iv System.map /boot/System.map-$KERNEL_VERSION
-cp -iv .config /boot/config-$KERNEL_VERSION
+cp -v arch/x86/boot/bzImage /boot/vmlinuz-$KERNEL_VERSION-lfs-11.1
+cp -v System.map /boot/System.map-$KERNEL_VERSION
+cp -v .config /boot/config-$KERNEL_VERSION
 
 ## docs:
 # install -d /usr/share/doc/linux-$KERNEL_VERSION

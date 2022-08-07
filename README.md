@@ -35,7 +35,7 @@ The build system will install LFS in the `build` directory. You should mount an 
 We will build the toolchain using a docker container, that has the required build tools installed. To create the docker container execute
 
     make docker
-    
+
 
 To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execute the `toolchain`, `mount` and `chroot` Make targets. `make mount` will mount virtual filesystems into the chroot environment (/dev, /proc, /sys, /run etc.). These can be unmounted using `make unmount`.
 
@@ -94,6 +94,7 @@ Changes over upstream LFS
 -------------------------
 
 * Kernel 5.15.59 instead of 5.16.9
+* Grub is built [with UEFI à la BLFS](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/grub-efi.html)
 * OpenSSL 3.0.5 instead of 3.0.1
 * e2fsprogs (`151-1-e2fsprogs.sh`) will be built before coreutils (`151-2-coreutils.sh`) to provide `mkfs.ext2`, which coreutils needs for its tests.
 * Disabled a few tests (see Tests)
