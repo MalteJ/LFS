@@ -30,7 +30,8 @@ The build system will install LFS in the `build` directory. You should mount an 
     # currently we use a fixed partition UUID - so we need to set the partition info accordingly:
     sudo tune2fs $DRIVE -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc
 
-    sudo mount build $DRIVE
+    mkdir -p build
+    sudo mount $DRIVE build
 
 We will build the toolchain using a docker container, that has the required build tools installed. To create the docker container execute
 

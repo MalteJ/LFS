@@ -81,7 +81,7 @@ unmount:
 	sudo umount build/lfs
 
 unmount-all:
-	sudo unmount -Rv build
+	sudo umount -Rv build
 
 _chroot: $(CHROOT_OUT)
 
@@ -97,6 +97,14 @@ chroot:
 _packages: $(PACKAGES_OUT)
 
 packages:
+	# additional packages for grub's efi support (packages/157-*.sh)
+	[ -f build/sources/mandoc-1.14.6.tar.gz ]                 || wget https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz -O build/sources/mandoc-1.14.6.tar.gz
+	[ -f build/sources/efivar-38.tar.bz2 ]      || wget https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2 -O build/sources/efivar-38.tar.bz2
+	[ -f build/sources/efibootmgr-17.tar.gz ]   || wget https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz -O build/sources/efibootmgr-17.tar.gz
+	[ -f build/sources/freetype-2.11.1.tar.xz ] || wget https://downloads.sourceforge.net/freetype/freetype-2.11.1.tar.xz -O build/sources/freetype-2.11.1.tar.xz
+	[ -f build/sources/unifont-14.0.01.pcf.gz ] || wget http://unifoundry.com/pub/unifont/unifont-14.0.01/font-builds/unifont-14.0.01.pcf.gz -O build/sources/unifont-14.0.01.pcf.gz
+	
+
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
 		TERM="$(TERM)"                \
@@ -119,10 +127,6 @@ kernel:
 _boot: $(BOOT_OUT)
 
 boot:
-	wget https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2 -o build/sources/efivar-38.tar.bz2
-	wget https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz -o build/sources/efibootmgr-17.tar.gz
-	wget https://downloads.sourceforge.net/freetype/freetype-2.11.1.tar.xz -o build/sources/freetype-2.11.1.tar.xz
-
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
 		TERM="$(TERM)"                \

@@ -8,7 +8,7 @@ set -x
 
 cd /sources
 rm -rf efivar-38
-tar xjvf efivar-38.tar.bz2
+tar xvf efivar-38.tar.bz2
 cd efivar-38
 
 # Built with instructions from BLFS:
