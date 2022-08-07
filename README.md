@@ -62,6 +62,7 @@ A few tests will fail. Compare with [LFS Test Logs](https://www.linuxfromscratch
 * packages
   * 103-glibc.sh
   * 120-attr.sh
+  * 124-gcc.sh
   * 127-sed.sh
   * 133-libtool.sh
   * 164-tar.sh
@@ -77,6 +78,14 @@ Changes over upstream LFS
 * e2fsprogs (`151-1-e2fsprogs.sh`) will be built before coreutils (`151-2-coreutils.sh`) to provide `mkfs.ext2`, which coreutils needs for its tests.
 * Disabled a few tests (see Tests)
 * Disabled installation of lots of docs
+
+
+Kernel
+------
+
+We are using the latest LTS kernel version instead of a mainline kernel like upstream LFS.
+
+See also [LFS Kernel Page](https://www.linuxfromscratch.org/lfs/view/stable/chapter10/kernel.html).
 
 
 TODO
