@@ -74,10 +74,6 @@ chroot:
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && make _chroot"
 	
-	make unmount
-
-	mkdir -p artifacts
-	cd build && sudo tar cpfv ../artifacts/lfs-temp-tools-11.1.tar .
 
 _packages: $(PACKAGES_OUT)
 

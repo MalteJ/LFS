@@ -22,8 +22,15 @@ To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execut
     make mount
     make chroot       # LFS chapter 7
 
+Now is a good time to backup the new toolchain to a tar file:
 
-`make chroot` will write out tar file. For the the virtual filesystems will be unmounted. You have to mount them again before you proceed with building packages:
+    make unmount
+    mkdir -p artifacts
+    cd build
+    sudo tar cpfv ../artifacts/lfs-temp-tools-11.1.tar .
+
+
+You have to mount the virtual filesystems again before you proceed with building packages:
 
     make mount
     make packages     # LFS chapter 8
