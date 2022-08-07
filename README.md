@@ -32,6 +32,10 @@ The build system will install LFS in the `build` directory. You should mount an 
 
     sudo mount build $DRIVE
 
+We will build the toolchain using a docker container, that has the required build tools installed. To create the docker container execute
+
+    make docker
+    
 
 To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execute the `toolchain`, `mount` and `chroot` Make targets. `make mount` will mount virtual filesystems into the chroot environment (/dev, /proc, /sys, /run etc.). These can be unmounted using `make unmount`.
 
