@@ -88,6 +88,7 @@ A few tests will fail. Compare with [LFS Test Logs](https://www.linuxfromscratch
   * 133-libtool.sh
   * 151-1-e2fsprogs.sh
   * 164-tar.sh
+  * 166-vim.sh
   * 169-procps-ng.sh
   * 170-util-linux.sh
 
