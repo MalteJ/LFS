@@ -18,6 +18,21 @@ Build instructions
 
 Run `make all` and wait for a few hours until you will find a finished `artifacts/part.img`. Alternatively:
 
+The build system will install LFS in the `build` directory. You should mount an ext4 filesystem into this directory. This may be a simple binary file, loop mounted or a usual disk.
+
+    export DRIVE=artifacts/part.img
+    
+    # if you use a file as partition, create it like this:
+    dd if=/dev/zero of=$DRIVE bs=1M count=16384
+
+    sudo mkfs.ext4 $DRIVE
+
+    # currently we use a fixed partition UUID - so we need to set the partition info accordingly:
+    sudo tune2fs $DRIVE -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc
+
+    sudo mount build $DRIVE
+
+
 To create the intermediate filesystem `artifacts/lfs-temp-tools-11.1.tar` execute the `toolchain`, `mount` and `chroot` Make targets. `make mount` will mount virtual filesystems into the chroot environment (/dev, /proc, /sys, /run etc.). These can be unmounted using `make unmount`.
 
     make toolchain    # LFS chapter 6
