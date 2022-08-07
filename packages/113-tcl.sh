@@ -11,8 +11,6 @@ rm -rf tcl8.6.12
 tar xzvf tcl8.6.12-src.tar.gz
 cd tcl8.6.12
 
-tar -xf ../tcl8.6.12-html.tar.gz --strip-components=1
-
 SRCDIR=$(pwd)
 cd unix
 ./configure --prefix=/usr           \
@@ -49,6 +47,3 @@ make install-private-headers
 ln -sfv tclsh8.6 /usr/bin/tclsh
 
 mv /usr/share/man/man3/{Thread,Tcl_Thread}.3
-
-mkdir -v -p /usr/share/doc/tcl-8.6.12
-cp -v -r  ../html/* /usr/share/doc/tcl-8.6.12
