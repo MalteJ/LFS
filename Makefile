@@ -33,11 +33,11 @@ tc: $(TOOLCHAIN_LOGS)
 clean:
 	sudo umount -Rv build; sudo rm -rf build
 	sudo rm -f toolchain/*.log
-	sudo rm -f chroot/*.out
+	sudo rm -f toolchain/chrooted/*.out
 	sudo rm -f packages/*.out
 	sudo rm -f kernel/*.out
 	sudo rm -f boot/*.out
-	sudo rm -f artifacts/part.img
+	sudo rm -f artifacts/disk.img
 
 docker:
 	docker build -t onmetal/lfs-builder .
@@ -53,7 +53,8 @@ disk:
 	# parted artifacts/disk.img mklabel gpt mkpart "EFI" fat32 1MiB 101MiB set 1 esp on mkpart "Linux" ext4 101MiB 100%
 	# sudo tune2fs /dev/loop0p2 -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc;
 
-	sleep 1
+	make _disk
+_disk:
 	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
 	sudo mkfs.vfat $${DEVICE}p1; \
 	sudo mkfs.ext4 $${DEVICE}p2; \
@@ -167,7 +168,7 @@ boot:
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && make _boot"
 
-all: toolchain mount chroot packages kernel boot unmount-all
+all: disk mount-vfs toolchain packages kernel boot unmount-all
 
 
 qemu:
