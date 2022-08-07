@@ -113,15 +113,6 @@ chroot:
 _packages: $(PACKAGES_OUT)
 
 packages:
-	# additional packages for grub's efi support (packages/157-*.sh)
-	[ -f build/sources/mandoc-1.14.6.tar.gz ]                 || wget https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz -O build/sources/mandoc-1.14.6.tar.gz
-	[ -f build/sources/efivar-38.tar.bz2 ]      || wget https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2 -O build/sources/efivar-38.tar.bz2
-	[ -f build/sources/popt-1.18.tar.gz ]       || wget http://ftp.rpm.org/popt/releases/popt-1.x/popt-1.18.tar.gz -O build/sources/popt-1.18.tar.gz
-	[ -f build/sources/efibootmgr-17.tar.gz ]   || wget https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz -O build/sources/efibootmgr-17.tar.gz
-	[ -f build/sources/freetype-2.11.1.tar.xz ] || wget https://downloads.sourceforge.net/freetype/freetype-2.11.1.tar.xz -O build/sources/freetype-2.11.1.tar.xz
-	[ -f build/sources/unifont-14.0.01.pcf.gz ] || wget http://unifoundry.com/pub/unifont/unifont-14.0.01/font-builds/unifont-14.0.01.pcf.gz -O build/sources/unifont-14.0.01.pcf.gz
-	
-
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
 		TERM="$(TERM)"                \
@@ -159,10 +150,16 @@ qemu:
 	  -m 2048M \
 	  -smp 2 \
 	  -cpu host \
-	  -drive format=raw,file=artifacts/disk.img \
+	  -drive format=raw,file=$(shell pwd)/artifacts/disk.img \
 	  -vga std \
 	  -machine type=q35,accel=kvm \
 	  -smbios "type=0,vendor=0vendor,version=0version,date=0date,release=0.0,uefi=on" \
 	  -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 \
 	  -display gtk \
 	  -boot c
+
+virsh-start:
+	virsh connect qemu:///system start linux2022
+
+virsh-stop:
+	virsh connect qemu:///system destroy linux2022
