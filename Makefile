@@ -107,12 +107,12 @@ mount-disk:
 	sudo mount $${DEVICE}p1 build/boot/efi
 
 sources:
-	#sudo rm -rf build/sources
+	sudo rm -rf build/sources
 	sudo mkdir -p build/sources
 	sudo chmod 777 build/sources
-	wget --input-file=misc/wget-list.custom --continue --directory-prefix=build/sources
-	wget --input-file=misc/wget-list.blfs --continue --directory-prefix=build/sources
-	wget --input-file=misc/wget-list.lfs --continue --directory-prefix=build/sources
+	wget -nv --input-file=misc/wget-list.custom --directory-prefix=build/sources
+	wget -nv --input-file=misc/wget-list.blfs --directory-prefix=build/sources
+	wget -nv --input-file=misc/wget-list.lfs --directory-prefix=build/sources
 
 unmount:
 	sudo umount build/dev/pts
