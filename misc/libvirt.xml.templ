@@ -31,6 +31,9 @@
       <source file="__PWD__/artifacts/disk.img"/>
       <target dev="vda" bus="virtio"/>
     </disk>
+    <console type="pty">
+      <target type="virtio" port="0"/>
+    </console>
     <video>
       <model type="virtio"/>
     </video>

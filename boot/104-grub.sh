@@ -6,8 +6,6 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter10/grub.html
 set -e
 set -x
 
-grub-install --bootloader-id=LFS --recheck
-
 mkdir -p /boot/grub
 
 cat > /boot/grub/grub.cfg << EOF
@@ -16,8 +14,8 @@ set default=0
 set timeout=5
 
 insmod part_gpt
-insmod ext4
-set root=(hd0,2)
+insmod ext2
+set root=(hd0,gpt2)
 
 if loadfont /boot/grub/fonts/unicode.pf2; then
   set gfxmode=auto
@@ -33,3 +31,5 @@ menuentry "Firmware Setup" {
   fwsetup
 }
 EOF
+
+grub-install --bootloader-id=LFS --recheck --efi-directory=/boot/efi --boot-directory=/boot --removable

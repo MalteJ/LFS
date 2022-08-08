@@ -18,7 +18,7 @@ BOOT := $(wildcard boot/*.sh)
 BOOT_OUT := $(BOOT:.sh=.out)
 
 
-.PHONY: toolchain chroot packages kernel boot packages/010-test.out 
+.PHONY: toolchain chroot packages kernel boot packages/010-test.out kernel/100-linux.sh boot/104-grub.sh
 #packages/877-stripping.sh packages/878-cleanup.sh
 
 %.log: %.sh
@@ -170,3 +170,6 @@ virsh-start:
 virsh-stop:
 	virsh --connect qemu:///system destroy LFS; \
 	virsh --connect qemu:///system undefine --nvram LFS
+
+virsh-console:
+	virsh --connect qemu:///system console LFS
