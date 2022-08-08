@@ -8,15 +8,15 @@ Licensed under [MIT License](LICENSE).
 How does LFS work?
 ------------------
 
-Linux from Scratch has multiple build steps. In a first step a cross-compiler will be built (chapters 1-6 - `make toolchain`). This happens from your host machine. To finish the setup of the cross compiler you will chroot into the new filesystem (chapter 7 - `make chroot`).
+Linux from Scratch has multiple build steps. In a first step a cross-compiler will be built (chapters 1-7 - `make toolchain`).
 
-In a next step packages to be used later on will be built within the chroot environment (chapter 8 - `make packages`). Finally system configuration (chapter 9) and building a kernel and bootloader will be done (chapter 10 - `make kernel && make boot`).
+In a next step packages to be used later on will be built within a chroot environment (chapter 8 - `make packages`). Finally system configuration (chapter 9) and building a kernel and bootloader will be done (chapter 10 - `make kernel && make boot`).
 
 
 Build instructions
 ------------------
 
-Run `make all` and wait for a few hours until you will find a finished `artifacts/part.img`. Alternatively:
+Run `make all` and wait for a few hours until you will find a finished `artifacts/disk.img`. Alternatively:
 
 We will build the toolchain using a docker container, that has the required build tools installed. To create the docker container execute
 
@@ -32,7 +32,7 @@ As the system should be booted using UEFI, we will set up an EFI partition and m
 You may check the details of the newly created raw image file:
 
     $ ls -lh artifacts/disk.img
-    -rw-r--r-- 1 malte malte 17179869184  8. Aug 01:29 artifacts/disk.img
+    -rw-r--r-- 1 lfs lfs 17179869184  8. Aug 01:29 artifacts/disk.img
 
     $ fdisk -l artifacts/disk.img
     Disk artifacts/disk.img: 16 GiB, 17179869184 bytes, 33554432 sectors
@@ -166,7 +166,7 @@ See also [LFS Kernel Page](https://www.linuxfromscratch.org/lfs/view/stable/chap
 TODO
 ----
 
-* Kernel version is also referenced in `toolchain/103-linux.sh`.
+* Kernel version is currently hardcoded in multiple places (e.g. `Makefile`, `kernel/*`, `toolchain/103-linux.sh`)
 * Have a look at the [LFS-Bootscripts](https://www.linuxfromscratch.org/lfs/view/stable/chapter09/bootscripts.html). They install config files for sysvinit with network configuration etc. This has to be adapted to our needs.
 * Remove packages we do not need
 * Remove build system from final image
