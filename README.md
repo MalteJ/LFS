@@ -83,6 +83,25 @@ Before doing anything with your raw image, you should unmount it and all virtual
     make unmount
 
 
+#### Automated Build Tests
+
+A few tests will fail, which is standard with LFS. For reference you can compare with [LFS Test Logs](https://www.linuxfromscratch.org/lfs/build-logs/11.1/Xeon-E5-1650v3/test-logs/) if your test results are to be expected.
+
+To be able to build our image without interruption, we have disabled the tests of the following packages by commenting out the `make check` or `make test` calls:
+
+* packages
+  * 103-glibc.sh
+  * 120-attr.sh
+  * 124-gcc.sh
+  * 127-sed.sh
+  * 133-libtool.sh
+  * 151-1-e2fsprogs.sh
+  * 164-tar.sh
+  * 166-vim.sh
+  * 169-procps-ng.sh
+  * 170-util-linux.sh
+
+
 Running LFS as Libvirt Qemu/KVM Guest
 -------------------------------------
 
@@ -97,25 +116,6 @@ To destroy and undefine the VM execute:
 
     make virt-stop
 
-
-
-### Tests
-
-A few tests will fail. Compare with [LFS Test Logs](https://www.linuxfromscratch.org/lfs/build-logs/11.1/Xeon-E5-1650v3/test-logs/) if your failed tests are to be expected.
-
-#### Disabled Tests
-
-* packages
-  * 103-glibc.sh
-  * 120-attr.sh
-  * 124-gcc.sh
-  * 127-sed.sh
-  * 133-libtool.sh
-  * 151-1-e2fsprogs.sh
-  * 164-tar.sh
-  * 166-vim.sh
-  * 169-procps-ng.sh
-  * 170-util-linux.sh
 
 
 Changes over upstream LFS
