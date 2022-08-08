@@ -8,7 +8,7 @@ set -x
 
 cd /sources
 rm -rf zlib-1.2.11
-tar xvf zlib-1.2.11.tar.xz
+tar xvf zlib-1.2.11.tar.gz
 cd zlib-1.2.11
 
 ./configure --prefix=/usr

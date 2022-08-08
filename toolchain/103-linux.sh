@@ -7,8 +7,8 @@ set -e
 set -x
 
 cd $LFS/sources
-tar xvf linux-5.16.9.tar.xz
-cd linux-5.16.9
+tar xvf linux-5.15.59.tar.xz
+cd linux-5.15.59
 
 make mrproper
 

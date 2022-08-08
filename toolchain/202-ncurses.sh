@@ -7,6 +7,7 @@ set -e
 set -x
 
 cd $LFS/sources
+rm -rf ncurses-6.3
 tar xvzf ncurses-6.3.tar.gz
 cd ncurses-6.3
 
