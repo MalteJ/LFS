@@ -55,7 +55,7 @@ disk:
 
 _disk:
 	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
-	sudo mkfs.vfat $${DEVICE}p1; \
+	sudo mkfs.vfat -F 32 $${DEVICE}p1; \
 	sudo mkfs.ext4 $${DEVICE}p2; \
 	sudo mkdir -p build; \
 	sudo mount $${DEVICE}p2 build; \
