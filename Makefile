@@ -149,8 +149,7 @@ kernel:
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && KERNEL_VERSION=$(KERNEL_VERSION) make _kernel"
 
-	cp build/boot/vmlinuz-* artifacts
-	cp build/boot/initrd-* artifacts || echo "initramfs does not exist"
+	sudo cp build/boot/vmlinuz-* artifacts
 
 _boot: $(BOOT_OUT)
 
