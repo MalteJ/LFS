@@ -6,6 +6,10 @@ echo https://www.linuxfromscratch.org/lfs/view/stable/chapter10/grub.html
 set -e
 set -x
 
+grub-install --bootloader-id=LFS --recheck
+
+mkdir -p /boot/grub
+
 cat > /boot/grub/grub.cfg << EOF
 # Begin /boot/grub/grub.cfg
 set default=0

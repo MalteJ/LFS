@@ -13,6 +13,7 @@ cat > /etc/fstab << "EOF"
 #                                                                order
 
 UUID=8b681c2f-a5fa-498d-8ffa-2aa5016d32fc   /              ext4  defaults            1     1
+UUID=D585E23A-4003-4D5D-BFEF-62D8BA4725E4   /boot/efi      vfat  defaults 0 1
 proc           /proc        proc     nosuid,noexec,nodev   0     0
 sysfs          /sys         sysfs    nosuid,noexec,nodev   0     0
 devpts         /dev/pts     devpts   gid=5,mode=620        0     0
