@@ -18,31 +18,39 @@ Build instructions
 
 Run `make all` and wait for a few hours until you will find a finished `artifacts/part.img`. Alternatively:
 
-The build system will install LFS in the `build` directory. You should mount an ext4 filesystem into this directory. This may be a simple binary file, loop mounted or a usual disk.
-
-    export DRIVE=artifacts/part.img
-    
-    # if you use a file as partition, create it like this:
-    dd if=/dev/zero of=$DRIVE bs=1M count=16384
-
-    sudo mkfs.ext4 $DRIVE
-
-    # currently we use a fixed partition UUID - so we need to set the partition info accordingly:
-    sudo tune2fs $DRIVE -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc
-
-    mkdir -p build
-    sudo mount $DRIVE build
-
 We will build the toolchain using a docker container, that has the required build tools installed. To create the docker container execute
 
     make docker
 
 
-Now we can build the toolchain.
+The build system will install LFS in the `build` directory. Because we want to have a bootable image later on, we will create a block device as raw file, partition it and mount to to `build`.
+As the system should be booted using UEFI, we will set up an EFI partition and mount it to `build/boot/efi`. The block device will be saved at `artifacts/disk.img`. Disk creation and mount is automated using `make disk`:
 
-    make disk         # create a raw image file with an EFI and a root partition
+    make disk
+
+
+You may check the details of the newly created raw image file:
+
+    $ ls -lh artifacts/disk.img
+    -rw-r--r-- 1 malte malte 17179869184  8. Aug 01:29 artifacts/disk.img
+
+    $ fdisk -l artifacts/disk.img
+    Disk artifacts/disk.img: 16 GiB, 17179869184 bytes, 33554432 sectors
+    Units: sectors of 1 * 512 = 512 bytes
+    Sector size (logical/physical): 512 bytes / 512 bytes
+    I/O size (minimum/optimal): 512 bytes / 512 bytes
+    Disklabel type: gpt
+    Disk identifier: 84649940-5CC0-4B3E-A145-8FB7EB20FF42
+
+    Device               Start      End  Sectors  Size Type
+    artifacts/disk.img1   2048   206847   204800  100M EFI System
+    artifacts/disk.img2 206848 33552383 33345536 15,9G Linux filesystem
+
+
+Next, we build the toolchain:
+
     make mount-vfs    # mount virtual kernel filesystems into build/ (proc, sys etc.)
-    make sources      # downloads all source packages (see misc/wget-list.*)
+    make sources      # downloads all source packages to build/sources (see misc/wget-list.*)
     make toolchain    # LFS chapter 6 & 7
 
 Now is a good time to backup the new toolchain to a tar file:
@@ -65,9 +73,30 @@ Building the kernel and bootloader have individual make targets:
     make boot         # LFS chapter 9, 10
 
 
-You can unmount virtual filesystem mounts using
+To chroot into your LFS system execute
+
+    make chroot
+
+
+Before doing anything with your raw image, you should unmount it and all virtual filesystems:
 
     make unmount
+
+
+Running LFS as Libvirt Qemu/KVM Guest
+-------------------------------------
+
+For development purposes a VM can be created, mounting the just assembled LFS image `artifacts/disk.img`.
+
+    make virt-start
+    
+    # You can now connect via VNC to port 5900
+
+
+To destroy and undefine the VM execute:
+
+    make virt-stop
+
 
 
 ### Tests
@@ -107,19 +136,6 @@ We are using the latest LTS kernel version instead of a mainline kernel like ups
 
 See also [LFS Kernel Page](https://www.linuxfromscratch.org/lfs/view/stable/chapter10/kernel.html).
 
-
-Running as Libvirt Qemu/KVM Guest
----------------------------------
-
-For development purposes a VM can be created, mounting the just assembled LFS image `artifacts/disk.img`.
-
-    make virt-start
-    # Connect via VNC to port 5900
-
-
-You can destroy and undefine the VM using
-
-    make virt-stop
 
 TODO
 ----
