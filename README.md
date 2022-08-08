@@ -80,8 +80,34 @@ To chroot into your LFS system execute
 
 Before doing anything with your raw image, you should unmount it and all virtual filesystems:
 
-    make unmount
+    make unmount-all
 
+
+#### Mount related make targets
+
+##### make disk
+
+Deletes if existing the old disk `artifacts/disk.img`. Creates a new disk, partitions it and mounts it to `build` and its EFI partition to `build/boot/efi`.
+
+##### make mount-vfs
+
+Mounts virtual kernel filesystems (proc, sys etc.) to `build/{proc,sys,...}`.
+
+
+##### make mount-disk
+
+Mounts `artifacts/disk.img` to `build` and `build/boot/efi`. This is also already included in `make disk`.
+
+
+##### make unmount
+
+Unmounts virtual kernel filesystems.
+
+
+##### make unmount-all
+
+Unmounts all virtual kernel filesystems, `build/boot/efi` as well as `build`. Afterwards you can do stuff with your `artifacts/disk.img`.
+Basically this make target executes `sudo umount -Rv build && sudo losetup -D`.
 
 #### Automated Build Tests
 
