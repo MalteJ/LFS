@@ -1,7 +1,7 @@
 Metal Linux from Scratch
 ========================
 
-Based on the great work of Gerard Beekmans on [Linux from Scratch](https://www.linuxfromscratch.org/).
+Based on the great work of Gerard Beekmans on [Linux from Scratch](https://www.linuxfromscratch.org/lfs/view/stable/).
 
 Licensed under [MIT License](LICENSE).
 
@@ -47,7 +47,7 @@ You may check the details of the newly created raw image file:
     artifacts/disk.img2 206848 33552383 33345536 15,9G Linux filesystem
 
 
-Next, we build the toolchain:
+Next, we build the toolchain ([chapter 6](https://www.linuxfromscratch.org/lfs/view/stable/chapter06/chapter06.html) & [chapter 7](https://www.linuxfromscratch.org/lfs/view/stable/chapter07/chapter07.html)):
 
     make mount-vfs    # mount virtual kernel filesystems into build/ (proc, sys etc.)
     make sources      # downloads all source packages to build/sources (see misc/wget-list.*)
@@ -61,13 +61,13 @@ Now is a good time to backup the new toolchain to a tar file:
     sudo tar cpfv ../artifacts/lfs-temp-tools-11.1.tar .
 
 
-You have to mount the virtual filesystems again before you proceed with building packages:
+You have to mount the virtual filesystems again before you proceed with building packages ([chapter 8](https://www.linuxfromscratch.org/lfs/view/stable/chapter08/chapter08.html)):
 
     make mount-vfs
     make packages     # LFS chapter 8
 
 
-Building the kernel and bootloader have individual make targets:
+Building the kernel and bootloader have individual make targets ([chapter 9](https://www.linuxfromscratch.org/lfs/view/stable/chapter09/chapter09.html) & [chapter 10](https://www.linuxfromscratch.org/lfs/view/stable/chapter10/chapter10.html)):
 
     make kernel       # LFS chapter 10
     make boot         # LFS chapter 9, 10
