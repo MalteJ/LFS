@@ -55,13 +55,8 @@ Now is a good time to backup the new toolchain to a tar file:
 
 You have to mount the virtual filesystems again before you proceed with building packages:
 
-    make mount
+    make mount-vfs
     make packages     # LFS chapter 8
-
-
-The glibc tests will have 2 fails: `io/tst-lchmod` and `misc/tst-ttyname`. That's standard LFS behaviour. Simply start `make packages` again and glibc will be built successfully.
-
-    make packages     # 2nd time after glibc showed 2 (unimportant) tests fail
 
 
 Building the kernel and bootloader have individual make targets:
@@ -113,9 +108,23 @@ We are using the latest LTS kernel version instead of a mainline kernel like ups
 See also [LFS Kernel Page](https://www.linuxfromscratch.org/lfs/view/stable/chapter10/kernel.html).
 
 
+Running as Libvirt Qemu/KVM Guest
+---------------------------------
+
+For development purposes a VM can be created, mounting the just assembled LFS image `artifacts/disk.img`.
+
+    make virt-start
+    # Connect via VNC to port 5900
+
+
+You can destroy and undefine the VM using
+
+    make virt-stop
+
 TODO
 ----
 
+* Kernel version is also referenced in `toolchain/103-linux.sh`.
 * Have a look at the [LFS-Bootscripts](https://www.linuxfromscratch.org/lfs/view/stable/chapter09/bootscripts.html). They install config files for sysvinit with network configuration etc. This has to be adapted to our needs.
 * Remove packages we do not need
 * Remove build system from final image

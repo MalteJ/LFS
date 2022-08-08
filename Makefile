@@ -5,7 +5,7 @@ SHELL = /bin/bash -o pipefail
 TOOLCHAIN := $(wildcard toolchain/*.sh)
 TOOLCHAIN_LOGS := $(TOOLCHAIN:.sh=.log)
 
-CHROOT := $(wildcard chroot/*.sh)
+CHROOT := $(wildcard toolchain/chrooted/*.sh)
 CHROOT_OUT := $(CHROOT:.sh=.out)
 
 PACKAGES := $(wildcard packages/*.sh)
@@ -37,6 +37,7 @@ clean:
 	sudo rm -f packages/*.out
 	sudo rm -f kernel/*.out
 	sudo rm -f boot/*.out
+	sudo losetup -D
 	sudo rm -f artifacts/disk.img
 
 docker:
@@ -123,6 +124,7 @@ unmount:
 unmount-all:
 	sudo umount -Rv build
 	sudo losetup -D
+	sudo losetup -l
 
 _chrooted: $(CHROOT_OUT)
 
@@ -149,8 +151,6 @@ packages:
 _kernel: $(KERNEL_OUT)
 
 kernel:
-	wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$(KERNEL_VERSION).tar.xz -O build/sources/linux-$(KERNEL_VERSION).tar.xz
-
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
 		TERM="$(TERM)"                \
@@ -168,24 +168,14 @@ boot:
 		PATH=/usr/bin:/usr/sbin     \
 		/bin/bash --login -c "cd /lfs && make _boot"
 
-all: disk mount-vfs toolchain packages kernel boot unmount-all
+all: disk mount-vfs sources toolchain packages kernel boot unmount-all
 
-
-qemu:
-	qemu-system-x86_64 \
-	  -m 2048M \
-	  -smp 2 \
-	  -cpu host \
-	  -drive format=raw,file=$(shell pwd)/artifacts/disk.img \
-	  -vga std \
-	  -machine type=q35,accel=kvm \
-	  -smbios "type=0,vendor=0vendor,version=0version,date=0date,release=0.0,uefi=on" \
-	  -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 \
-	  -display gtk \
-	  -boot c
 
 virsh-start:
-	virsh connect qemu:///system start linux2022
+	sed 's#__PWD__#$(PWD)#' misc/libvirt.xml.templ > artifacts/libvirt.xml
+	
+	virsh --connect qemu:///system create artifacts/libvirt.xml
 
 virsh-stop:
-	virsh connect qemu:///system destroy linux2022
+	virsh --connect qemu:///system destroy LFS; \
+	virsh --connect qemu:///system undefine --nvram LFS
