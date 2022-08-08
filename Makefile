@@ -41,7 +41,7 @@ clean:
 	sudo rm -f artifacts/disk.img
 
 docker:
-	docker build -t onmetal/lfs-builder .
+	cd misc && docker build -t onmetal/lfs-builder .
 
 var:
 	export FOO=$(shell echo bar); echo foo$${FOO}p2
