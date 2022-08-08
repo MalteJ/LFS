@@ -49,12 +49,10 @@ var:
 disk:
 	rm -f artifacts/disk.img
 	dd if=/dev/zero of=artifacts/disk.img bs=1M count=16384
-	sfdisk artifacts/disk.img < misc/partitions.fdisk
-
-	# parted artifacts/disk.img mklabel gpt mkpart "EFI" fat32 1MiB 101MiB set 1 esp on mkpart "Linux" ext4 101MiB 100%
-	# sudo tune2fs /dev/loop0p2 -U 8b681c2f-a5fa-498d-8ffa-2aa5016d32fc;
+	sudo sfdisk artifacts/disk.img < misc/partitions.fdisk
 
 	make _disk
+
 _disk:
 	export DEVICE=$(shell sudo losetup -f artifacts/disk.img --partscan --show); \
 	sudo mkfs.vfat $${DEVICE}p1; \
@@ -63,13 +61,6 @@ _disk:
 	sudo mount $${DEVICE}p2 build; \
 	sudo mkdir -p build/boot/efi; \
 	sudo mount $${DEVICE}p1 build/boot/efi
-
-
-fdisk:
-	sfdisk -label artifacts/disk.img gpt
-	sfdisk -part-label artifacts/disk.img 1 "EFI"
-	sfdisk -part-label artifacts/disk.img 2 "Linux"
-
 
 toolchain:
 	docker run -it --rm -v '$(shell pwd):/mnt/lfs' onmetal/lfs-builder make tc
