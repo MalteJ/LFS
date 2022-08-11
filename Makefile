@@ -141,6 +141,17 @@ packages:
 
 _kernel: $(KERNEL_OUT)
 
+kernelconfig:
+	sudo cp kernel/linux-5.15.59.config build/sources/linux-5.15.59/.config
+	sudo chroot build /usr/bin/env -i   \
+		HOME=/root                  \
+		TERM="$(TERM)"                \
+		PS1='(lfs chroot) \u:\w\$ ' \
+		PATH=/usr/bin:/usr/sbin     \
+		/bin/bash --login -c "cd /sources/linux-5.15.59/ && make menuconfig"
+
+	cp build/sources/linux-5.15.59/.config kernel/linux-5.15.59.config
+
 kernel:
 	sudo chroot build /usr/bin/env -i   \
 		HOME=/root                  \
@@ -150,6 +161,9 @@ kernel:
 		/bin/bash --login -c "cd /lfs && KERNEL_VERSION=$(KERNEL_VERSION) make _kernel"
 
 	sudo cp build/boot/vmlinuz-* artifacts
+
+initramfs:
+	cd build/ && sed "s#^/##" ../misc/initramfs | cpio -cov | zstd -3 > ../artifacts/initramfs.zst
 
 _boot: $(BOOT_OUT)
 
@@ -162,17 +176,6 @@ boot:
 		/bin/bash --login -c "cd /lfs && make _boot"
 
 all: disk mount-vfs sources toolchain packages kernel boot unmount-all
-
-kernelconfig:
-	sudo cp kernel/linux-5.15.59.config build/sources/linux-5.15.59/.config
-	sudo chroot build /usr/bin/env -i   \
-		HOME=/root                  \
-		TERM="$(TERM)"                \
-		PS1='(lfs chroot) \u:\w\$ ' \
-		PATH=/usr/bin:/usr/sbin     \
-		/bin/bash --login -c "cd /sources/linux-5.15.59/ && make menuconfig"
-
-	cp build/sources/linux-5.15.59/.config kernel/linux-5.15.59.config
 
 virsh-start:
 	sed 's#__PWD__#$(PWD)#' misc/libvirt.xml.templ > artifacts/libvirt.xml
