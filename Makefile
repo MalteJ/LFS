@@ -178,7 +178,7 @@ boot:
 all: disk mount-vfs sources toolchain packages kernel boot unmount-all
 
 virsh-start:
-	sed 's#__PWD__#$(PWD)#' misc/libvirt.xml.templ > artifacts/libvirt.xml
+	sed 's#__PWD__#$(PWD)#' misc/libvirt.xml > artifacts/libvirt.xml
 	
 	virsh --connect qemu:///system create artifacts/libvirt.xml
 
