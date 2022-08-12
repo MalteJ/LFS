@@ -163,7 +163,10 @@ kernel:
 	sudo cp build/boot/vmlinuz-* artifacts
 
 initramfs:
-	cd build/ && sed "s#^/##" ../misc/initramfs | cpio -cov | zstd -3 > ../artifacts/initramfs.zst
+	sudo rm -rf .initramfs
+	sudo rsync -a --files-from=misc/initramfs -r build/ .initramfs
+	cd .initramfs && find . -print0 | cpio --verbose --create --format=newc --null | zstd -3 > ../artifacts/initramfs.zst
+	sudo rm -rf .initramfs
 
 _boot: $(BOOT_OUT)
 
